@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Result | BLF Schools</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<section class="section">
+<h2>Student Result</h2>
+<div id="resultBox"></div>
+<button onclick="downloadPDF()">Download Result PDF</button>
+
+<script type="module">
+import { supabase } from './scripts/supabase.js';
+const student_id = localStorage.getItem('student_id');
+if(!student_id){window.location.href='login.html';}
+
+async function loadResults(){
+  const { data } = await supabase.from('results').select('*').eq('student_id', student_id);
+  let total=0, html='<table border="1" style="width:100%;margin-top:20px;"><tr><th>Subject</th><th>Score</th><th>Grade</th></tr>';
+  data.forEach(r=>{
+    const score=r.score;
+    total+=score;
+    let grade=score>=70?'A':score>=60?'B':score>=50?'C':score>=45?'D':'F';
+    html+=`<tr><td>${r.subject}</td><td>${score}</td><td>${grade}</td></tr>`;
+  });
+  const average=(total/data.length).toFixed(2);
+  html+=`<tr><td colspan="2"><strong>Average</strong></td><td>${average}%</td></tr></table>`;
+  document.getElementById('resultBox').innerHTML=html;
+}
+loadResults();
+
+async function downloadPDF(){
+  const doc = new jsPDF.jsPDF();
+  doc.setFontSize(20);
+  doc.text("Blessed Life Foundation Schools",20,20);
+  doc.addImage('assets/logo.png','PNG',160,10,30,30);
+  const { data } = await supabase.from('results').select('*').eq('student_id', student_id);
+  let y=40;
+  data.forEach(r=>{
+    let grade=r.score>=70?'A':r.score>=60?'B':r.score>=50?'C':r.score>=45?'D':'F';
+    doc.text(`${r.subject}: ${r.score} (${grade})`,20,y);
+    y+=10;
+  });
+  const avg=(data.reduce((a,b)=>a+b.score,0)/data.length).toFixed(2);
+  doc.text(`Average: ${avg}%`,20,y+10);
+  doc.addImage('assets/principal-sign.png','PNG',150,y+15,40,20);
+  doc.save('result.pdf');
+}
+</script>
+</section>
+</body>
+</html>

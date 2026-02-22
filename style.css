@@ -1,0 +1,89 @@
+body{
+  font-family:'Poppins',sans-serif;
+  margin:0;
+  padding:0;
+  background:#f8f9fa;
+  color:#333;
+}
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 20px;
+  background:#004080;
+  color:#fff;
+  align-items:center;
+}
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:15px;
+}
+nav ul li a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:500;
+}
+.hero{
+  background:#004080 url('assets/career1.jpg') no-repeat center/cover;
+  color:#fff;
+  text-align:center;
+  padding:80px 20px;
+}
+.hero button{
+  padding:10px 20px;
+  margin-top:20px;
+  background:#ffc107;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+.section{
+  padding:40px 20px;
+  text-align:center;
+}
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  margin-top:20px;
+}
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+  width:250px;
+}
+input,textarea,button{
+  padding:10px;
+  margin:5px 0;
+  width:100%;
+  border-radius:5px;
+  border:1px solid #ccc;
+}
+button{
+  background:#004080;
+  color:#fff;
+  cursor:pointer;
+}
+.contact,footer{
+  background:#004080;
+  color:#fff;
+  padding:20px;
+}
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  font-size:25px;
+  background:#25D366;
+  color:#fff;
+  padding:10px;
+  border-radius:50%;
+  text-decoration:none;
+}
+@media(max-width:768px){
+  .cards{flex-direction:column;align-items:center;}
+  nav ul{flex-direction:column;gap:10px;}
+}

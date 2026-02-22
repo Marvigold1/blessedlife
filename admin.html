@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | BLF Schools</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section class="section">
+<h2>Admin Login</h2>
+<div style="max-width:400px;margin:auto;">
+<input type="email" id="adminEmail" placeholder="Email">
+<input type="password" id="adminPass" placeholder="Password">
+<button onclick="adminLogin()">Login</button>
+<p id="adminMsg" style="color:red;margin-top:10px;"></p>
+</div>
+
+<script type="module">
+import { supabase } from './scripts/supabase.js';
+
+async function adminLogin(){
+  const email = document.getElementById('adminEmail').value;
+  const password = document.getElementById('adminPass').value;
+
+  const { data } = await supabase
+    .from('admins')
+    .select('*')
+    .eq('email', email)
+    .eq('password', password)
+    .single();
+
+  if(data){
+    localStorage.setItem('admin_email', email);
+    window.location.href = 'admin-dashboard.html';
+  } else {
+    document.getElementById('adminMsg').innerText = 'Invalid Admin Email or Password';
+  }
+}
+</script>
+</section>
+</body>
+</html>
